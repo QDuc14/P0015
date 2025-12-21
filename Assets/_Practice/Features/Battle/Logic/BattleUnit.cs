@@ -9,8 +9,10 @@ namespace Practice.Features.Battle
         public string Name => Definition.DisplayName;
         public int MaxHp => Definition.MaxHp;
         public int Attack => Definition.Attack;
+        public int MaxMp => Definition.MaxMp;
 
         public int CurrentHp { get; private set; }
+        public int CurrentMp { get; private set; }
 
         public bool IsDead => CurrentHp <= 0;
 
@@ -18,6 +20,7 @@ namespace Practice.Features.Battle
         {
             Definition = definition;
             CurrentHp = MaxHp;
+            CurrentMp = MaxMp;
         }
 
         public void TakeDamage(int damage)
@@ -36,6 +39,15 @@ namespace Practice.Features.Battle
             CurrentHp += amount;
             if (CurrentHp > MaxHp)
                 CurrentHp = MaxHp;
+        }
+
+        public void ManaDrain(int mpCost)
+        {
+            if (mpCost <= 0 || IsDead)
+                return;
+            CurrentMp -= mpCost;
+            if (CurrentMp < 0)
+                CurrentMp = 0;
         }
     }
 }

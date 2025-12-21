@@ -13,6 +13,7 @@ namespace Practice.Features.Battle.Unity
         [Header("Stats")]
         [SerializeField] private int _maxHp = 100;
         [SerializeField] private int _attack = 10;
+        [SerializeField] private int _maxMp = 50;
 
         public UnitDefinition ToUnitDefinition()
         {
@@ -20,7 +21,8 @@ namespace Practice.Features.Battle.Unity
                 id: _id,
                 displayName: _displayName,
                 maxHp: _maxHp,
-                attack: _attack
+                attack: _attack,
+                maxMp: _maxMp
             );
         }
     }

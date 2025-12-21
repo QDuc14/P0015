@@ -1,17 +1,20 @@
-﻿using UnityEngine;
+﻿using Practice.Core;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Practice.Features.Battle.Unity
 {
     public sealed class BattleUnitDamageTester : MonoBehaviour
     {
-        [SerializeField] private BattleUnitView _unitView;
+        [SerializeField] private BattleUnitView _mainUnitView;
+        [SerializeField] private BattleUnitView _targetUnitView;
+        
         [SerializeField] private int _damageAmount = 10;
         [SerializeField] private int _healAmount = 5;
 
         private void Update()
         {
-            if (_unitView == null)
+            if (_mainUnitView == null)
                 return;
             
             var keyboard = Keyboard.current;
@@ -19,14 +22,15 @@ namespace Practice.Features.Battle.Unity
                 return;
 
             if (keyboard.dKey.wasPressedThisFrame)
-            {                 
-                _unitView.ApplyDamage(_damageAmount);
+            {
+                _mainUnitView.ApplyDamage(_damageAmount);
             }
             
             if (keyboard.hKey.wasPressedThisFrame)
             {
-                _unitView.ApplyHeal(_healAmount);
+                _mainUnitView.ApplyHeal(_healAmount);
             }
+
         }
     }
 }

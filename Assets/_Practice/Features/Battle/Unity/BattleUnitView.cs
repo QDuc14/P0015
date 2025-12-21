@@ -49,5 +49,16 @@ namespace Practice.Features.Battle.Unity
 
             Debug.Log($"BattleUnit '{BattleUnit.Name}' healed {amount} HP. Current HP: {BattleUnit.CurrentHp}/{BattleUnit.MaxHp}");
         }
+
+        public void ApplyManaDrain(int amount)
+        {
+            if (BattleUnit == null)
+            {
+                Debug.LogError("BattleUnit is not initialized.", this);
+                return;
+            }
+            BattleUnit.ManaDrain(amount);
+            Debug.Log($"BattleUnit '{BattleUnit.Name}' drained {amount} MP. Current MP: {BattleUnit.CurrentMp}/{BattleUnit.MaxMp}");
+        }
     }
 }
