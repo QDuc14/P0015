@@ -12,6 +12,9 @@ namespace Practice.Features.Battle.UI
         [SerializeField] private Button _button;
         [SerializeField] private TMP_Text _label;
 
+        [Header("Balance")]
+        [SerializeField] private GameBalanceAsset _gameBalanceAsset;
+
         [Header("Skill")]
         [SerializeField] private SkillDefinitionAsset _skillAsset;
 
@@ -21,10 +24,9 @@ namespace Practice.Features.Battle.UI
 
         private SkillLogic _skillLogic;
         private SKillDefinition _skillDefinition;
-
+        
         private void Awake()
         {
-            _skillLogic = new SkillLogic();
             if (_skillAsset != null)
             {
                 _skillDefinition = _skillAsset.ToSkillDefinition();
@@ -33,6 +35,12 @@ namespace Practice.Features.Battle.UI
             {
                 Debug.LogError("SkillDefinitionAsset is not assigned.", this);
             }
+
+            GameBalance gameBalance = _gameBalanceAsset != null
+                ? _gameBalanceAsset.ToGameBalance()
+                : new GameBalance(0.5f, 1.5f, 1.0f, 1.0f);
+
+            _skillLogic = new SkillLogic(gameBalance);
         }
 
         private void OnEnable()

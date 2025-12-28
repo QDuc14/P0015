@@ -516,6 +516,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Practice.Features::Practice.Features.Battle.UI.SkillButton
   _button: {fileID: 649831287}
   _label: {fileID: 1354243586}
+  _gameBalanceAsset: {fileID: 11400000, guid: 0f60567f80d31664c8ca957a4f55f0da, type: 2}
   _skillAsset: {fileID: 11400000, guid: 23a3a4f3ebc37bd4eb06234450afd2ed, type: 2}
   _caster: {fileID: 459189599}
   _target: {fileID: 697681800}
