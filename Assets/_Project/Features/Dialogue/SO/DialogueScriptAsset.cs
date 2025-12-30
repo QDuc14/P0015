@@ -11,6 +11,14 @@ namespace Project.Features.Dialogue.SO
         public string Id = "Story_000";
         public List<NodeDef> Nodes;
 
+        public IReadOnlyList<DialogueNode> BuildRuntimeNodes()
+        {
+            var list = new List<DialogueNode>(Nodes.Count);
+            foreach (NodeDef n in Nodes)
+                list.Add(n.ToRuntimeNode());
+            return list;
+        }
+
         [Serializable]
         public abstract class NodeDef
         {
