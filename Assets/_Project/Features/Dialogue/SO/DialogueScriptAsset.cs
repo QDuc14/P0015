@@ -9,7 +9,7 @@ namespace Project.Features.Dialogue.SO
     public class DialogueScriptAsset : ScriptableObject
     {
         public string Id = "Story_000";
-        public List<NodeDef> Nodes;
+        [SerializeReference] public List<NodeDef> Nodes = new() ;
 
         public IReadOnlyList<DialogueNode> BuildRuntimeNodes()
         {
@@ -18,47 +18,46 @@ namespace Project.Features.Dialogue.SO
                 list.Add(n.ToRuntimeNode());
             return list;
         }
+    }
 
-        [Serializable]
-        public abstract class NodeDef
-        {
-            public abstract DialogueNode ToRuntimeNode();
-        }
+    [Serializable]
+    public abstract class NodeDef
+    {
+        public abstract DialogueNode ToRuntimeNode();
+    }
 
-        [Serializable]
-        public sealed class LineNodeDef : NodeDef
-        {
-            public string CharacterId;
-            [TextArea] public string Text;
+    [Serializable]
+    public sealed class LineNodeDef : NodeDef
+    {
+        public string CharacterId;
+        [TextArea] public string Text;
 
-            public string SpeakerName;
-            public string ExpressionId;
-            public PortraitSlot Slot = PortraitSlot.Left;
+        public string SpeakerName;
+        public string ExpressionId;
+        public PortraitSlot Slot = PortraitSlot.Left;
 
-            public override DialogueNode ToRuntimeNode()
-                => new DialogueLineNode(new DialogueLine(CharacterId, ExpressionId, SpeakerName, Text, Slot));
-        }
+        public override DialogueNode ToRuntimeNode()
+            => new DialogueLineNode(new DialogueLine(CharacterId, ExpressionId, SpeakerName, Text, Slot));
+    }
 
-        [Serializable]
-        public sealed class CommandNodeDef : NodeDef
-        {
-            public DialogueCommandType CommandType;
-            public string A;
-            public string B;
+    [Serializable]
+    public sealed class CommandNodeDef : NodeDef
+    {
+        public DialogueCommandType CommandType;
+        public string A;
+        public string B;
 
-            public override DialogueNode ToRuntimeNode()
-                => new DialogueCommandNode(new DialogueCommand(CommandType, A, B));
-        }
+        public override DialogueNode ToRuntimeNode()
+            => new DialogueCommandNode(new DialogueCommand(CommandType, A, B));
+    }
 
-        [Serializable]
-        public sealed class WaitNodeDef : NodeDef
-        {
-            public float Seconds;
-            public bool WaitForClick;
+    [Serializable]
+    public sealed class WaitNodeDef : NodeDef
+    {
+        public float Seconds;
+        public bool WaitForClick;
 
-            public override DialogueNode ToRuntimeNode()
-                => new DialogueWaitNode(new DialogueWait(Seconds, WaitForClick));
-        }
-
+        public override DialogueNode ToRuntimeNode()
+            => new DialogueWaitNode(new DialogueWait(Seconds, WaitForClick));
     }
 }

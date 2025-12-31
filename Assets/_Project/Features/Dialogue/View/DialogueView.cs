@@ -53,5 +53,14 @@ namespace Project.Features.Dialogue.View
         {
             IsTyping = false;
         }
+
+        public void SetBackground(Sprite sprite)
+        {
+            if (_background != null)
+            {
+                _background.sprite = sprite;
+            }
+        }
+
     }
 }

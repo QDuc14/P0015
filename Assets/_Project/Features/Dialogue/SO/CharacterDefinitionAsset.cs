@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Project.Features.Dialogue.SO
 {
-    [CreateAssetMenu(menuName = "Project/DiaLogue/Character Definition")]
+    [CreateAssetMenu(menuName = "Project/Dialogue/Character Definition")]
     public sealed class CharacterDefinitionAsset : ScriptableObject
     {
         public string CharacterId = "hero";

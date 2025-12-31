@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Project.Features.Dialogue.SO
 {
-    [CreateAssetMenu(menuName = "Project/DiaLogue/Dialogue Database")]
+    [CreateAssetMenu(menuName = "Project/Dialogue/Dialogue Database")]
     public sealed class DialogueDatabaseAsset : ScriptableObject
     {
         public List<DialogueScriptAsset> Scripts = new();
@@ -25,10 +25,10 @@ namespace Project.Features.Dialogue.SO
             return null;
         }
 
-        public BackgroundDefinitionAsset GetBackground(string id)
+        public Sprite GetBackground(string id)
         {
             foreach (BackgroundDefinitionAsset asset in Backgrounds)
-                if (asset != null && asset.BackgroundId == id) return asset;
+                if (asset != null && asset.BackgroundId == id) return asset.Sprite;
             return null;
         }
     }

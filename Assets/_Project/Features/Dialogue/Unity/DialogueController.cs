@@ -87,7 +87,35 @@ namespace Project.Features.Dialogue.Unity
 
         private void HandleCommand(DialogueCommand command)
         {
-            throw new NotImplementedException();
+            switch (command.CommandType)
+            {
+                case DialogueCommandType.SetBackground:
+                    _view.SetBackground(_database.GetBackground(command.A));
+                    break;
+                
+
+                case DialogueCommandType.SetPortrait:
+                    Sprite sprite = ResolvePortrait(command.A, command.B);
+                    _view.SetPortrait(sprite, PortraitSlot.Left); // Default left
+                    break;
+
+                case DialogueCommandType.ClearPortrait:
+                    _view.ClearPortrait(PortraitSlot.Left);
+                    break;
+
+                case DialogueCommandType.PlaySfx:
+
+                    break;
+
+                case DialogueCommandType.PlayBgm:
+
+                    break;
+
+                case DialogueCommandType.StopBgm:
+
+                    break;
+
+            }
         }
 
         private void HandleLine(DialogueLine line)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Project.Features.Dialogue.SO
 {
-    [CreateAssetMenu(menuName = "Project/DiaLogue/Audio Library")]
+    [CreateAssetMenu(menuName = "Project/Dialogue/Audio Library")]
     public sealed class AudioLibraryAsset : ScriptableObject
     {
         public List<AudioEntry> Sfx = new();
