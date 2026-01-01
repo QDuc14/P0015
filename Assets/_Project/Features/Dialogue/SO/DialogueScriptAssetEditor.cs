@@ -16,7 +16,7 @@ public class DialogueScriptAssetEditor : Editor
             target,
             serializedObject,
             nodesProp,
-            typeof(NodeDef),
+            typeof(DialogueScriptAsset.NodeDef),
             "Nodes"
         );
     }
