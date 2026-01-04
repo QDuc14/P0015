@@ -25,7 +25,7 @@ namespace Project.Features.Dialogue.Unity
         [SerializeField] private InputActionReference _autoToggleAction;
         [SerializeField] private InputActionReference _skipToggleAction;
 
-        private readonly DialogueRunner _runner;
+        private readonly DialogueRunner _runner = new();
         private bool _auto;
         private bool _skip;
 
@@ -45,6 +45,16 @@ namespace Project.Features.Dialogue.Unity
             _runner.OnFinished += HandleFinished;
         }
 
+        private void Start()
+        {
+            StartDialogue("Story_000");
+        }
+
+        private void Update()
+        {
+            _runner.Tick(Time.deltaTime);
+        }
+
         private void OnDisable()
         {
             if (_continueAction) _continueAction.action.performed -= OnContinue;
@@ -57,15 +67,10 @@ namespace Project.Features.Dialogue.Unity
             _runner.OnFinished -= HandleFinished;
         }
 
-        private void Update()
-        {
-            _runner.Tick(Time.deltaTime);
-        }
-
         public void StartDialogue(string scriptId, int startIndex = 0)
         {
             DialogueScriptAsset script = _database.GetScript(scriptId);
-            if (script != null)
+            if (script == null)
             {
                 Debug.LogError($"Dialogue script not found: {scriptId}");
                 return;
