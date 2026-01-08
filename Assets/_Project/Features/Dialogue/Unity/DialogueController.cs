@@ -3,6 +3,7 @@ using Project.Features.Dialogue.Logic;
 using Project.Features.Dialogue.SO;
 using Project.Features.Dialogue.View;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,10 +26,15 @@ namespace Project.Features.Dialogue.Unity
         [SerializeField] private InputActionReference _autoToggleAction;
         [SerializeField] private InputActionReference _skipToggleAction;
 
+        [Header("Auto")]
+        [SerializeField, Min(1f)] private float autoAdvanceDelay = 0.35f;
+
+        private Coroutine _autoRoutine;
         private readonly DialogueRunner _runner = new();
         private bool _auto;
         private bool _skip;
 
+        // Unity's functions -- START --
         private void OnEnable()
         {
             if (_continueAction) _continueAction.action.performed += OnContinue;
@@ -43,6 +49,11 @@ namespace Project.Features.Dialogue.Unity
             _runner.OnCommand += HandleCommand;
             _runner.OnWait += HandleWait;
             _runner.OnFinished += HandleFinished;
+
+            if (_view != null)
+            {
+                _view.TypewriterFinished += OnWriterFinished;
+            }
         }
 
         private void Start()
@@ -65,7 +76,14 @@ namespace Project.Features.Dialogue.Unity
             _runner.OnCommand -= HandleCommand;
             _runner.OnWait -= HandleWait;
             _runner.OnFinished -= HandleFinished;
+
+            if (_view != null)
+            {
+                _view.TypewriterFinished -= OnWriterFinished;
+            }
+            StopAutoRoutine();
         }
+        // Unity's functions -- END --
 
         public void StartDialogue(string scriptId, int startIndex = 0)
         {
@@ -125,13 +143,21 @@ namespace Project.Features.Dialogue.Unity
 
         private void HandleLine(DialogueLine line)
         {
+            StopAutoRoutine();
+
+            bool instant = _skip;
             string speakerName = ResolveSpeakerName(line.CharacterId);
-            _view.ShowLine(speakerName, line.Text);
+            _view.ShowLine(speakerName, line.Text, instant);
 
             if (!string.IsNullOrEmpty(line.CharacterId))
             {
                 Sprite sprite = ResolvePortrait(line.CharacterId, line.CharacterExpressionId);
                 _view.SetPortrait(sprite, line.Slot);
+            }
+
+            if (_skip)
+            {
+                StartCoroutine(ContinueNextFrame());
             }
         }
 
@@ -161,11 +187,53 @@ namespace Project.Features.Dialogue.Unity
 
         private void OnContinue(InputAction.CallbackContext context)
         {
+            StopAutoRoutine();
+
             if (_view != null && _view.IsTyping)
                 _view.CompleteTypingInstantly();
             else
                 _runner.Continue();
         }
 
+        private void OnWriterFinished()
+        {
+            if (_skip)
+            {
+                StopAutoRoutine();
+                _runner.Continue();
+                return;
+            }
+
+            if (_auto)
+            {
+                StopAutoRoutine();
+                _autoRoutine = StartCoroutine(AutoAdvanceRoutine());
+            }
+        }
+
+        private IEnumerator AutoAdvanceRoutine()
+        {
+            yield return new WaitForSeconds(autoAdvanceDelay);
+
+            if (_view != null && _view.IsTyping) yield break;
+
+            _runner.Continue();
+            _autoRoutine = null;
+        }
+
+        private IEnumerator ContinueNextFrame()
+        {
+            yield return null;
+            _runner.Continue();
+        }
+
+        private void StopAutoRoutine()
+        {
+            if (_autoRoutine != null)
+            {
+                StopCoroutine(_autoRoutine);
+                _autoRoutine = null;
+            }
+        }
     }
 }
