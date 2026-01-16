@@ -170,7 +170,7 @@ namespace Project.Features.Dialogue.Unity
         private string ResolveSpeakerName(string characterId)
         {
             CharacterDefinitionAsset c = _database.GetCharacter(characterId);
-            return c != null ? c.CharacterId : null;
+            return c != null ? c.DisplayName : null;
         }
 
         private void OnSkipToggle(InputAction.CallbackContext context)

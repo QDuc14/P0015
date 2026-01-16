@@ -48,7 +48,7 @@ namespace Project.Features.Dialogue.View
                 return;
 
             _bodyText.firstVisibleCharacter = int.MaxValue;
-            TypewriterFinished.Invoke();
+            TypewriterFinished?.Invoke();
         }
 
         public void SetPortrait(Sprite sprite, PortraitSlot slot)
