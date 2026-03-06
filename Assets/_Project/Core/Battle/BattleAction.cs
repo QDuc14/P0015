@@ -36,6 +36,20 @@ namespace Project.Core.Battle
         }
     }
 
+    public readonly struct Special
+    {
+        public readonly string Id;
+        public readonly string Name;
+        public readonly int Damage; // temp
+
+        public Special(string id, string name, int damage)
+        {
+            Id = id ?? "";
+            Name = name ?? "";
+            Damage = damage < 0 ? 0 : damage;
+        }
+    }
+
     public abstract class BattleAction
     {
         public abstract ActionType ActionType { get; }
@@ -56,6 +70,16 @@ namespace Project.Core.Battle
         public override ActionType ActionType { get => ActionType.Skill; }
         public Skill Action { get; }
         public SkillAction(Skill action)
+        {
+            Action = action;
+        }
+    }
+
+    public class SpecialAction : BattleAction
+    {
+        public override ActionType ActionType { get => ActionType.Special; }
+        public Special Action { get; }
+        public SpecialAction (Special action)
         {
             Action = action;
         }

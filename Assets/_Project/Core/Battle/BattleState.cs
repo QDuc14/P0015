@@ -3,19 +3,16 @@
     public enum BattlePhase
     {
         StartCircle,
-        StartTurn,
-        SelectCharacter,
-        SelectAction,
-        EnemyProceed,
-        EndTurn,
+        PlayerTurn,
+        EnemyTurn,
         EndCircle,
         EndBattle,
     }
+
 
     public sealed class BattleState
     {
         public int CircleIndex { get; internal set; } = 0;
         public BattlePhase CirclePhase { get; internal set; }
-        
     }
 }

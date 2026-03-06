@@ -18,10 +18,9 @@ namespace Project.Core.Battle
         public readonly int Def;
         public readonly int Mp;
         public readonly int Cp; // percentage
+        public readonly int Budget;
 
-        public readonly IReadOnlyList<BattleEffect> StatusEffects;
-
-        public PlayerOperator (string id, string name, int hp, int atk, int def, int mp, int cp, IReadOnlyList<BattleEffect> statusEffects)
+        public PlayerOperator (string id, string name, int hp, int atk, int def, int mp, int cp, int budget)
         {
             Id = id ?? "";
             Name = name ?? "";
@@ -30,7 +29,7 @@ namespace Project.Core.Battle
             Def = def < 0 ? 0 : def;
             Mp = mp < 0 ? 0 : mp;
             Cp = Math.Clamp(cp, 0, 100);
-            StatusEffects = statusEffects ?? Array.Empty<BattleEffect>();
+            Budget = budget < 0 ? 0 : budget;
         }
     }
 
